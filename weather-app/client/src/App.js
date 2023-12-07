@@ -1,24 +1,37 @@
-// server/index.js
-const express = require('express');
-const axios = require('axios');
-const app = express();
-const port = 3001;
+import React, { useState } from 'react';
+import axios from 'axios';
 
-// OpenWeatherMap API 密钥
-const API_KEY = '6f7400a5be1e41e4b8e5e743259704fb';
+function App() {
+  const [weather, setWeather] = useState('');
+  const [city, setCity] = useState('');
 
-app.get('/weather', async (req, res) => {
-    const city = req.query.city; // 获取查询参数中的城市名称
-    const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
-
+  const getWeather = async () => {
     try {
-        const response = await axios.get(url);
-        res.json(response.data);
+      // 注意这里的 URL 应该指向您的 Node.js 后端服务器的端口号（默认为3001）
+      const response = await axios.get(`http://localhost:3001/weather?city=${city}`);
+      setWeather(response.data);
     } catch (error) {
-        res.status(500).send('Error retrieving weather data');
+      console.error('Error fetching weather data:', error);
+      // 处理错误，可能是显示一个错误消息
+      setWeather('Failed to fetch weather data.');
     }
-});
+  };
 
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-});
+  return (
+    <div>
+      <input 
+        type="text" 
+        value={city} 
+        onChange={(e) => setCity(e.target.value)} 
+        placeholder="Enter city name"
+      />
+      <button onClick={getWeather}>Get Weather</button>
+      {weather && <div>
+        <h2>Weather Data:</h2>
+        <pre>{JSON.stringify(weather, null, 2)}</pre>
+      </div>}
+    </div>
+  );
+}
+
+export default App;

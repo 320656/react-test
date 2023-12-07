@@ -1,6 +1,7 @@
 // client/src/WeatherDisplay.js
 
 import React from 'react';
+import './WeatherDisplay.css';
 
 function WeatherDisplay({ data }) {
   // 将 UNIX 时间戳转换为可读的日期时间格式
@@ -9,7 +10,7 @@ function WeatherDisplay({ data }) {
   };
 
   return (
-    <div>
+    <div className="weather-display">
       <h2>Weather in {data.name}</h2>
       <p><strong>Condition:</strong> {data.weather[0].main} ({data.weather[0].description})</p>
       <p><strong>Temperature:</strong> {data.main.temp} °C (feels like {data.main.feels_like} °C)</p>

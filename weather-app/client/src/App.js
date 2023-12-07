@@ -5,7 +5,7 @@ const app = express();
 const port = 3001;
 
 // OpenWeatherMap API 密钥
-const API_KEY = 'your_api_key_here';
+const API_KEY = '6f7400a5be1e41e4b8e5e743259704fb';
 
 app.get('/weather', async (req, res) => {
     const city = req.query.city; // 获取查询参数中的城市名称

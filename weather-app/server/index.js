@@ -6,7 +6,6 @@ const port = 3001;
 
 app.use(cors());
 
-
 // 使用您的 OpenWeatherMap API 密钥
 const API_KEY = '6f7400a5be1e41e4b8e5e743259704fb';
 

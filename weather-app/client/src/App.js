@@ -1,35 +1,27 @@
+// client/src/App.js
+
 import React, { useState } from 'react';
 import axios from 'axios';
+import WeatherDisplay from './WeatherDisplay'; // 导入新组件
 
 function App() {
-  const [weather, setWeather] = useState('');
-  const [city, setCity] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
 
-  const getWeather = async () => {
+  const getWeather = async (city) => {
     try {
-      // 注意这里的 URL 应该指向您的 Node.js 后端服务器的端口号（默认为3001）
       const response = await axios.get(`http://localhost:3001/weather?city=${city}`);
-      setWeather(response.data);
+      setWeatherData(response.data); // 设置获取的天气数据
     } catch (error) {
       console.error('Error fetching weather data:', error);
-      // 处理错误，可能是显示一个错误消息
-      setWeather('Failed to fetch weather data.');
+      setWeatherData(null);
     }
   };
 
   return (
     <div>
-      <input 
-        type="text" 
-        value={city} 
-        onChange={(e) => setCity(e.target.value)} 
-        placeholder="Enter city name"
-      />
-      <button onClick={getWeather}>Get Weather</button>
-      {weather && <div>
-        <h2>Weather Data:</h2>
-        <pre>{JSON.stringify(weather, null, 2)}</pre>
-      </div>}
+      <input type="text" placeholder="Enter city name" />
+      <button onClick={() => getWeather('New York')}>Get Weather</button>
+      {weatherData && <WeatherDisplay data={weatherData} />} {/* 使用 WeatherDisplay 组件 */}
     </div>
   );
 }
